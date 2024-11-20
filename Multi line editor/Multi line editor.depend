@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1730973992 source:c:\iti_problemsolving\multi line editor\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+

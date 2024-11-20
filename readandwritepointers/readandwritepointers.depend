@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1730724205 source:c:\iti_problemsolving\readandwritepointers\main.c
+	<stdio.h>
+	<stdlib.h>
+

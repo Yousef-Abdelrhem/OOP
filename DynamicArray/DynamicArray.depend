@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1730728640 source:c:\iti_problemsolving\dynamicarray\main.c
+	<stdio.h>
+	<stdlib.h>
+
