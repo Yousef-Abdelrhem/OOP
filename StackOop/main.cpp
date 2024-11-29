@@ -100,6 +100,7 @@ class Stack
             s.pop();
         }
     }
+
     bool operator==(const Stack& right)
     {
      if((_size != right._size) || (tops != right.tops))
@@ -166,8 +167,7 @@ int main()
     s.print();
 
     cout << "Can be solved using freq arry or Sets " << "endl" << "Stack == Stack 2: ";
-   // bool flag =(s==s4);
-    //cout << (flag) << endl;
+
     cout << (s==s2) << endl;
 
     cout << "Stack + operator : ";

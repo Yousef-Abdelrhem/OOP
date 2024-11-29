@@ -1,10 +1,27 @@
 #include <iostream>
 #include "graphics.h"
+
+class Shape
+{
+protected:
+    int mycolor;
+public:
+    void SetColor(int x){ mycolor = x;}
+    int GetColor(){return mycolor;}
+    Shape()
+    {
+        mycolor = 0;
+    }
+    Shape(int _x)
+    {
+        mycolor = _x;
+    }
+};
+
 class Point{
 private:
     int x;
     int y;
-
 public:
     Point()
     {
@@ -25,17 +42,14 @@ public:
         x = old.x;
         y = old.y;
     }
-    ~Point()
-    {
-    }
+    ~Point(){}
 };
 
-class ISMLine
+class ISMLine: Shape
 {
     private:
     Point start;
     Point end;
-    int myColor;
     public:
 
     void SetStart(int _x, int _y)
@@ -57,15 +71,13 @@ class ISMLine
      start.SetY(0);
      end.SetX(0);
      end.SetY(0);
-     myColor = 5;
+     SetColor(5);
     }
 
     ISMLine(int _x, int _y, int _x2,int _y2,int color)
-    :start(_x,_y),end(_x2,_y2)
+    :start(_x,_y),end(_x2,_y2),Shape(color)
     {
-     myColor = color;
     }
-
     ISMLine(const ISMLine &old)
     {
      start = old.start;
@@ -76,75 +88,49 @@ class ISMLine
     }
     void DrawLine()
     {
-        setcolor(myColor);
         line(start.GetX(),start.GetY(),end.GetX(),end.GetY());
     }
 };
 
-class ISMRect
+class ISMRect: Shape
 {
     Point ul;
     Point lr;
-    int mycolor;
     public:
     void SetUL(Point _ul){ul=_ul;}
     Point GetUL(){return ul;}
     void SetLR(Point _lr){lr=_lr;}
     Point GetLR(){return lr;}
-    void SetMyColor(int _color){mycolor=_color;}
-    int GetMyColor(){return mycolor;}
+    void SetMyColor(int _color){ SetColor(_color);}
     ISMRect()
     {
-        //r1 ->ul x|0| y|0|   lr x|0| y|0| mycolor||
-        mycolor=0;
-        //r1 ->ul x|0| y|0|   lr x|0| y|0| mycolor|0|
-        cout<<"Rect def ctor";
     }
-
     ISMRect(int x1,int y1,int x2,int y2,int _color)
-    :ul(x1,y1),lr(x2,y2)
+    :ul(x1,y1),lr(x2,y2),Shape(_color)
     {
-        ///r2-> ul x|1| y|2|   lr x|3| y|4| mycolor||
-        //useless after ctor chaining
-        //ul.SetX(x1);
-        //ul.SetY(y1);
-        //lr.SetX(x2);
-        //lr.SetY(y2);
-        mycolor=_color;
-        cout<<"Rect 5p ctor";
-    }
-    ISMRect(const ISMRect& old)
-    {
-        ul=old.ul;
-        lr=old.lr;
-        mycolor=old.mycolor;
     }
     ~ISMRect()
     {
-        cout<<"rect dest";
     }
     void DrawRect()
     {
-        //inside graphics.h
         setcolor(mycolor);
         rectangle(ul.GetX(),ul.GetY(),lr.GetX(),lr.GetY());
     }
 };
 
-class ISMTri
+class ISMTri :Shape
 {
 private:
     Point p1;
     Point p2;
     Point p3;
-    int mycolor;
 public:
    ISMTri(){}
 
    ISMTri(int x1,int y1,int x2,int y2,int x3,int y3,int _color)
-   :p1(x1,y1), p2(x2,y2), p3(x3,y3)
+   :p1(x1,y1), p2(x2,y2), p3(x3,y3),Shape(_color)
    {
-       mycolor = _color;
    }
    ISMTri(const ISMTri& old){}
    ~ISMTri(){}
@@ -158,23 +144,21 @@ public:
 
 };
 
-class ISMCir
+class ISMCir: Shape
 {
 private:
     Point center;
     int radius;
-    int mycolor;
 public:
      void SetCenter(Point _center){center=_center;}
     Point GetCenter(){return center;}
     void SetRadius(int _radius){radius=_radius;}
     int GetRadius(){return radius;}
     void SetMyColor(int _color){mycolor=_color;}
-    int GetMyColor(){return mycolor;}
 
     ISMCir(){}
     ISMCir(int x,int y,int _radius,int _color)
-    :center(x,y)
+    :center(x,y),Shape(_color)
     {
         radius = _radius;
         mycolor = _color;
@@ -185,25 +169,76 @@ public:
         circle(center.GetX(),center.GetY(),radius);
     }
 };
+
+class Picture
+{
+protected:
+    ISMLine * lptr;
+    ISMRect * rptr;
+    ISMCir * cptr;
+    ISMTri * tptr;
+    int lsize;
+    int rsize;
+    int csize;
+    int tsize;
+public:
+    void SetLines(ISMLine * _lptr, int Size)
+    {
+        lptr = _lptr;
+        lsize = Size;
+    }
+    void SetRect(ISMRect * _rptr, int Size)
+    {
+        rptr = _rptr;
+        rsize = Size;
+    }
+    void SetCircle(ISMCir * _cptr, int Size)
+    {
+        cptr = _cptr;
+        csize = Size;
+    }
+    void SetTri(ISMTri * _tptr, int Size)
+    {
+        tptr = _tptr;
+        tsize = Size;
+    }
+
+    Picture()
+    {
+        lsize=rsize=csize=tsize=0;
+    }
+void Excute()
+{
+        for(int i = 0; i < lsize; i++)
+            lptr[i].DrawLine();
+         for(int i = 0; i < csize; i++)
+            cptr[i].DrawCircle();
+         for(int i = 0; i < rsize; i++)
+            rptr[i].DrawRect();
+         for(int i = 0; i < tsize; i++)
+            tptr[i].DrawTri();
+}
+
+};
 using namespace std;
 
-int main()
-{
+int main() {
     initgraph();
-    //line(44,44,100,100);
-    ISMLine l1(20, 20, 100, 100, 5);
-    l1.DrawLine();
 
-    ISMRect r1(100, 100, 200, 200, 6);
-    r1.DrawRect();
+    ISMLine larr[2] = {ISMLine(200, 350, 300, 370, 8),ISMLine(100, 200, 100,270, 8)};
+    ISMCir head(250, 150, 95, 8);
+    ISMRect rarr[2]={ISMRect(240, 198, 260, 350, 8), ISMRect(200, 350, 300, 370, 8)};
 
-    ISMCir c1(300, 100, 29, 8);
-    c1.DrawCircle();
+    Picture p;
+    p.SetLines(larr,2);
+    p.SetRect(rarr,2);
+    p.SetCircle(&head,1);
 
-    ISMTri T(300, 300, 400, 200, 350, 400, 7);
-    T.DrawTri();
+    p.Excute();
+
     return 0;
 }
+
 ///////////////////////////////////////////////////////
 ////
 ///Composition

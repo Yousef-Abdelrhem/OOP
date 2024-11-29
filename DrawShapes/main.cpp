@@ -187,23 +187,26 @@ public:
 };
 using namespace std;
 
-int main()
-{
+
+int main() {
     initgraph();
-    //line(44,44,100,100);
-    ISMLine l1(20, 20, 100, 100, 5);
-    l1.DrawLine();
 
-    ISMRect r1(100, 100, 200, 200, 6);
-    r1.DrawRect();
+    ISMCir head(250, 150, 95, 8);
+    head.DrawCircle();
 
-    ISMCir c1(300, 100, 29, 8);
-    c1.DrawCircle();
+    ISMRect body(240, 198, 260, 350, 8);
+    body.DrawRect();
 
-    ISMTri T(300, 300, 400, 200, 350, 400, 7);
-    T.DrawTri();
+    ISMRect stand(200, 350, 300, 370, 8);
+    stand.DrawRect();
+
+    ISMRect stand(200, 350, 300, 370, 8);
+    stand.DrawRect();
+
+
     return 0;
 }
+
 ///////////////////////////////////////////////////////
 ////
 ///Composition

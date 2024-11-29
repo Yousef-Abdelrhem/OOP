@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1732629521 source:c:\iti\oop\enhancedstackoop\main.cpp
+1732630124 source:c:\iti\oop\enhancedstackoop\main.cpp
 	<iostream>
-	<algorithm>
+	<stdexcept>
 

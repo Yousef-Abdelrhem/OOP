@@ -75,7 +75,8 @@ int main()
 
     /// dequeue ( front++)
 
-
+///2- Draw abajora via picture class
+////and make shape class includes color
 
 
 
